@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head', {title: 'Crear Producto', style: '/css/formStyle.css'}) %>
+<body>
+    <%- include('../partials/header') %>
+
+    <h3>Formulario Crear Productos</h3>
+
+    <form action="/products/create" method="POST" enctype="multipart/form-data">
+        <div class="form-camp">
+            <label for="name" class="form-label">Nombre:</label>
+            <input type="text" name="name" class="form-input">
+        </div>
+        <div class="form-camp">
+            <label for="price" class="form-label">Precio:</label>
+            <input type="number" name="price" class="form-input">
+        </div>
+        <div class="form-camp">
+            <label for="description" class="form-label">Descripción:</label>
+            <textarea name="description" class="form-input"></textarea>
+        </div>
+        <div class="form-camp">
+            <label for="quantity" class="form-label">Cantidad:</label>
+            <input type="number" name="quantity" class="form-input">
+        </div>
+        <div class="form-camp">
+            <label for="image" class="form-label">Foto producto:</label>
+            <input type="file" name="image" class="form-input">
+        </div>
+        <div class="form-camp">
+            <label for="sale" class="form-label">En oferta:</label>
+            <select name="sale" id="sale">
+                <option value="0" selected>No</option>
+                <option value="1">Si</option>
+            </select>
+        </div>
+        <div class="form-camp">
+            <label for="color" class="form-label">Color:</label>
+                <select name="color" class="form-input">
+                    <option value="#" selected disabled>Color...</option>
+                    <% colors.forEach(color => { %>
+                        <option value="<%= color.id %>"><%= color.name %></option>
+                     
+                    <% }) %>      
+                </select>
+                
+        </div>     
+        
+        <div class="buttons">
+            <button type="submit" class="button">Guardar producto</button>
+            <button type="reset" class="button">Limpiar formulario</button>
+        </div>
+    </form>
+
+    <script src="https://kit.fontawesome.com/6cd48854d2.js" crossorigin="anonymous"></script>
+</body>
+</html>

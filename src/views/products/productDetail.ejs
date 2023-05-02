@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head', {title: 'Detalle del Productos', style: '/css/productsStyle.css'}) %>
+<body>
+    <%- include('../partials/header') %>
+    
+    <section class="products" id="products">
+        
+            <article class="product-card" id="product-card">
+                <img src="/img/products/<%= product.image %>" width="320px" height="448px" alt="foto">
+                <div class="description" id="description">
+                    <span class="name"><%= product.name %></span>
+                    <span class="price">$ <%= product.price %></span>
+                    <span class="price"><%= product.color.name %></span>
+                </div>
+            </article>
+            <section class="colores">
+                <img src="/img/products/<%= product.image %>" width="50px" height="60px" alt="">
+                <img src="/img/products/<%= product.image %>" width="50px" height="60px" alt="">
+                <img src="/img/products/<%= product.image %>" width="50px" height="60px" alt="">
+            </section>
+    </section>
+    
+    <script src="https://kit.fontawesome.com/6cd48854d2.js" crossorigin="anonymous"></script>
+</body>
+</html>

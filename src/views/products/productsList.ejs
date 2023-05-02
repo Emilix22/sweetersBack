@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head', {title: 'Productos', style: '/css/productsStyle.css'}) %>
+<body>
+    <%- include('../partials/header') %>
+    
+    <section class="products" id="products">
+        <% products.forEach(product => { %>
+            <article class="product-card" id="product-card">
+                <a href="/products/detail/<%= product.id %>">
+                    <img src="/img/products/<%= product.image %>" width="320px" height="448px" alt="foto">
+                    <div class="description" id="description">
+                        <span class="name"><%= product.name %></span>
+                        <span class="price">$ <%= product.price %></span>
+                    </div>
+                    <i class="fa-regular fa-heart"></i>
+                </a>
+            </article>
+         
+        <% }) %>
+    </section>
+    
+    <script src="https://kit.fontawesome.com/6cd48854d2.js" crossorigin="anonymous"></script>
+</body>
+</html>
