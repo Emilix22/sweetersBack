@@ -5,14 +5,14 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
 
-const indexRoutes = require('./src/routes/indexRoutes');
-const usersRoutes = require('./src/routes/userRoutes');
-const productsRoutes = require('./src/routes/productsRoutes');
+// const indexRoutes = require('./src/routes/indexRoutes');
+// const usersRoutes = require('./src/routes/userRoutes');
+// const productsRoutes = require('./src/routes/productsRoutes');
 const productsApiRoutes = require('./src/routes/apiRoutes/productsApiRoutes');
 const colorsApiRoutes = require('./src/routes/apiRoutes/colorsApiRoutes');
 
-app.set('view engine', 'ejs');
-app.set('views', './src/views');
+// app.set('view engine', 'ejs');
+// app.set('views', './src/views');
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
@@ -27,9 +27,9 @@ app.use(cors());
 
 app.use(express.static("public"));
 
-app.use('/', indexRoutes);
-app.use('/users', usersRoutes);
-app.use('/products', productsRoutes);
+// app.use('/', indexRoutes);
+// app.use('/users', usersRoutes);
+// app.use('/products', productsRoutes);
 app.use('/api/products', productsApiRoutes);
 app.use('/api/colors', colorsApiRoutes);
 
