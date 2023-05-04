@@ -11,15 +11,17 @@ const controller = {
     list: (req, res) => {
         Products.findAll({ include: ['color']})
         .then(products => {
+            let lastproductIndex = products[products.length - 1]
+            let lastProducts = products.find(product => product.id == lastproductIndex.id)
             let info = {
                 meta: {
                     status : 200,
                     total: products.length,
+                    last: lastProducts,
                     url: '/api/products'
                 },
                 data: products
             }
-
             return res.status(200).json(info)
         })
         .catch(error => {console.log(error)});
