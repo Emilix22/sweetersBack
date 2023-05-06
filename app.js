@@ -10,6 +10,7 @@ const cors = require('cors');
 // const productsRoutes = require('./src/routes/productsRoutes');
 const productsApiRoutes = require('./src/routes/apiRoutes/productsApiRoutes');
 const colorsApiRoutes = require('./src/routes/apiRoutes/colorsApiRoutes');
+const usersApiRoutes = require('./src/routes/apiRoutes/usersApiRoutes');
 
 // app.set('view engine', 'ejs');
 // app.set('views', './src/views');
@@ -32,6 +33,7 @@ app.use(express.static("public"));
 // app.use('/products', productsRoutes);
 app.use('/api/products', productsApiRoutes);
 app.use('/api/colors', colorsApiRoutes);
+app.use('/api/users', usersApiRoutes);
 
 
 

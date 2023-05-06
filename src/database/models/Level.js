@@ -27,5 +27,5 @@ module.exports = (sequelize, dataTypes) => {
         })
     }   
 
-    return User;
+    return Level;
 }
