@@ -4,27 +4,27 @@ const upload = require('../../middlewares/multerUsers');
 
 const usersApiController = require('../../controllers/apiControllers/usersApiControllers');
 
-//Todos los productos
+//Todos los usuarios
 router.get('/', usersApiController.list);
 
-// //Listar productos eliminados
-// router.get('/removed', usersApiController.removed);
-// //Recuperar producto eliminado
-// router.post('/restore/:id/', usersApiController.restore);
+//Listar usuarios eliminados
+router.get('/removed', usersApiController.removed);
+//Recuperar usuario eliminado
+router.post('/restore/:id/', usersApiController.restore);
 
-// //buscar producto
+// //buscar usuario
 // router.post('/search', usersApiController.search);
 
-// //crear productos
-// router.post('/create', upload.single('image'), usersApiController.create);
+//crear usuarios
+router.post('/create', upload.single('image'), usersApiController.create);
 
-// //editar producto
+// //editar usuario
 // router.put('/update/:id/', upload.single('image'), usersApiController.update);
 
-// //Detalle de producto
+// //Detalle de usuario
 // router.get('/detail/:id/', usersApiController.detail);
 
-// //Eliminar producto
+// //Eliminar usuario
 // router.delete('/delete/:id/', usersApiController.destroy);
 
 module.exports = router;
