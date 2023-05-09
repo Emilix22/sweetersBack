@@ -18,8 +18,8 @@ router.post('/restore/:id/', usersApiController.restore);
 //crear usuarios
 router.post('/create', upload.single('image'), usersApiController.create);
 
-// //editar usuario
-// router.put('/update/:id/', upload.single('image'), usersApiController.update);
+//editar usuario
+router.put('/update/:id/', upload.single('image'), usersApiController.update);
 
 // //Detalle de usuario
 // router.get('/detail/:id/', usersApiController.detail);
