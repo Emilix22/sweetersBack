@@ -7,24 +7,32 @@ const usersApiController = require('../../controllers/apiControllers/usersApiCon
 //Todos los usuarios
 router.get('/', usersApiController.list);
 
+//login de usuario
+router.post('/login', usersApiController.login);
+
 //Listar usuarios eliminados
 router.get('/removed', usersApiController.removed);
 //Recuperar usuario eliminado
 router.post('/restore/:id/', usersApiController.restore);
 
-// //buscar usuario
-// router.post('/search', usersApiController.search);
-
-//crear usuarios
+//crear usuario
 router.post('/create', upload.single('image'), usersApiController.create);
 
 //editar usuario
 router.put('/update/:id/', upload.single('image'), usersApiController.update);
 
-// //Detalle de usuario
-// router.get('/detail/:id/', usersApiController.detail);
+// //Perfil de usuario
+// router.get('/profile/:id', usersApiController.profile);
+
+// //Modificar permisos de usuario
+// router.get('/level/:id/', adminMiddleware, usersController.level);
+// router.put('/level/:id/', usersController.processLevel);
 
 // //Eliminar usuario
-// router.delete('/delete/:id/', usersApiController.destroy);
+// router.get('/delete/:id/', usersController.confirmDelete)
+// router.delete('/delete/:id/', adminMiddleware, usersController.destroy);
+
+// //Cerrar sesión
+// router.get('/logout', usersController.logout);
 
 module.exports = router;

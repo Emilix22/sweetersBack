@@ -28,6 +28,32 @@ const controller = {
         .catch(error => {console.log(error)});
     },
 
+    login: (req, res) => {
+          
+        Users.findOne({
+            where: {email: req.body.email},
+            include: [{association: 'level'}]
+        })
+        .then(userToLogin => {
+            
+            if(userToLogin){
+
+            if (bcrypt.compareSync(req.body.password, userToLogin.password)){
+                
+                delete userToLogin.password;
+                req.session.userLogged = userToLogin;
+                
+                if(req.body.rememberUser){
+                    res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60) * 60 });
+                }
+                return res.status(200).json(userToLogin)
+            }
+            return res.send('Las credenciales son inválidas')
+        }
+            return res.send('El email no es correcto')
+        }) 
+    },
+
     removed: (req, res) => {
         Users.findAll({
             where: {
