@@ -21,18 +21,18 @@ router.post('/create', upload.single('image'), usersApiController.create);
 //editar usuario
 router.put('/update/:id/', upload.single('image'), usersApiController.update);
 
-// //Perfil de usuario
-// router.get('/profile/:id', usersApiController.profile);
+//Perfil de usuario
+router.get('/profile/:id', usersApiController.profile);
 
-// //Modificar permisos de usuario
+//Modificar permisos de usuario
 // router.get('/level/:id/', adminMiddleware, usersController.level);
-// router.put('/level/:id/', usersController.processLevel);
+router.put('/level/:id/', usersApiController.changeLevel);
 
-// //Eliminar usuario
+//Eliminar usuario
 // router.get('/delete/:id/', usersController.confirmDelete)
-// router.delete('/delete/:id/', adminMiddleware, usersController.destroy);
+router.delete('/delete/:id/', usersApiController.destroy);
 
-// //Cerrar sesión
-// router.get('/logout', usersController.logout);
+//Cerrar sesión
+router.get('/logout', usersApiController.logout);
 
 module.exports = router;

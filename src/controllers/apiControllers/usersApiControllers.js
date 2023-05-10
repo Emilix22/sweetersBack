@@ -51,7 +51,8 @@ const controller = {
             return res.send('Las credenciales son inválidas')
         }
             return res.send('El email no es correcto')
-        }) 
+        })
+        .catch(error => {console.log(error)}); 
     },
 
     removed: (req, res) => {
@@ -175,6 +176,53 @@ const controller = {
         })
         .catch(error => {console.log(error)});
     },
+
+    profile: (req, res) => {
+        Users.findByPk(req.params.id)
+        .then(user => {
+            let info = {
+                meta: {
+                    status : 200,
+                    url: '/api/users/profile/:id/'
+                },
+                data: user
+            }
+            return res.status(200).json(info)
+        })
+        .catch(error => {console.log(error)});
+    },
+
+    changeLevel: (req, res) => {
+        
+        Users.update(
+            {
+                level_id: req.body.level,
+            },
+            {
+                where: {id: req.params.id},
+                // include: [{association: 'level'}]
+            }
+        )
+        .then(user => {
+            res.send('Usuario modificado con éxito')
+        })
+        .catch(error => {console.log(error)});
+    },
+
+    destroy: (req, res) => {
+        Users.destroy({
+            where: {id: req.params.id}
+        })
+        .then(user => {
+            res.send('Usuario eliminado con éxito')
+        })
+        .catch(error => {console.log(error)});    
+    },
+
+    logout: (req, res) => {
+        res.clearCookie('userEmail');
+        req.session.destroy();      
+    }
 
 }
 
