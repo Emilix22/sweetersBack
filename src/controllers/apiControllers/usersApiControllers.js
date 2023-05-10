@@ -35,7 +35,6 @@ const controller = {
             include: [{association: 'level'}]
         })
         .then(userToLogin => {
-            
             if(userToLogin){
 
             if (bcrypt.compareSync(req.body.password, userToLogin.password)){

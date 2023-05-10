@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../../middlewares/multerUsers');
+const authMiddleware = require('../../middlewares/authMiddleware');
 
 const usersApiController = require('../../controllers/apiControllers/usersApiControllers');
 
@@ -22,7 +23,7 @@ router.post('/create', upload.single('image'), usersApiController.create);
 router.put('/update/:id/', upload.single('image'), usersApiController.update);
 
 //Perfil de usuario
-router.get('/profile/:id', usersApiController.profile);
+router.get('/profile/:id', authMiddleware, usersApiController.profile);
 
 //Modificar permisos de usuario
 // router.get('/level/:id/', adminMiddleware, usersController.level);

@@ -4,57 +4,7 @@
 <body>
     <%- include('./partials/header') %>
 <main>
-    <section class="banner">
-        <article class="card">
-            <img src="/img/banner1.jpeg" width="320px" height="448px" alt="foto">
-        </article>
-        <article class="card">
-            <img src="/img/banner2.jpeg" width="320px" height="448px" alt="foto">
-        </article>
-        <article class="card">
-            <img src="/img/banner3.jpeg" width="320px" height="448px" alt="foto">
-        </article>
-        <article class="card">
-            <img src="/img/banner4.jpeg" width="320px" height="448px" alt="foto">
-        </article>
-        <article class="card">
-            <img src="/img/banner5.jpeg" width="320px" height="448px" alt="foto">
-        </article>
-    </section>
-
-    <section class="bannerMovil">
-        
-            <img src="/img/bannerMovil.jpg" alt="">
-
-    </section>
-    <section class="off" id="off">
-        <h2>Ofertas</h2>
-        <section class="products-off" id="products-off">
-            <% products.forEach(product => { %>
-                <% if (product.sale == 1) { %>
-                    <article class="product-card" id="product-card">
-                        <a href="/products/detail/<%= product.id %>">
-                            <img src="/img/products/<%= product.image %>" width="320px" height="448px" alt="foto">
-                            <div class="description" id="description">
-                                <span class="name"><%= product.name %></span>
-                                <span class="price">$ <%= product.price %></span>
-                            </div>
-                            <i class="fa-regular fa-heart"></i>
-                        </a>
-                    </article>
-                <% } %>
-            <% }) %>
-            
-        </section>
-    </section>
-
-    <section class="nosotros" id="nosotros">
-        <h2>Nosotros</h2>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, voluptatum excepturi. Voluptatibus architecto culpa magnam ipsum dolorum fugit accusamus, eum quo quisquam cum ullam nobis deserunt provident ex eos eveniet.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit ut repudiandae eveniet facere voluptatum deserunt fuga perferendis consequatur deleniti dolorem, aliquid consequuntur libero laborum voluptatem ad! Consequatur error ipsum aliquam?
-        </p>
-    </section>
+    
 </main>
 
     <script src="https://kit.fontawesome.com/6cd48854d2.js" crossorigin="anonymous"></script>
