@@ -137,10 +137,10 @@ const controller = {
 
     search: (req, res) => {
         
-        if(req.body.search) {
+        if(req.body.searchTxt) {
             Products.findAll({
                 where: {
-                    name: {[Op.like]: '%'+req.body.search+'%'}    
+                    name: {[Op.like]: '%'+req.body.searchTxt+'%'}    
                 }
         })
         .then(products => {
