@@ -135,38 +135,34 @@ const controller = {
         .catch(error => res.send(error))
     },
 
-    search: (req, res) => {
+    // search: (req, res) => {
         
-        if(req.body.searchTxt) {
-            Products.findAll({
-                where: {
-                    name: {[Op.like]: '%'+req.body.searchTxt+'%'}    
-                }
-        })
-        .then(products => {
-           
-            if(products.length > 0){
-                let info = {
-                    meta: {
-                        status : 200,
-                        total: products.length,
-                        url: '/api/products'
-                    },
-                    data: products
-                }
-
-                return res.status(200).json(info)
-                
-            }else{
-                res.send('Lo siento, no hemos encontrado su consulta..')
-            }
-            })
-        }else{
-            res.send('debe indicar el producto que quiere buscar..')
-        }
+    //     if(req.body.searchTxt) {
+    //         Products.findAll({
+    //             where: {
+    //                 name: {[Op.like]: '%'+req.body.searchTxt+'%'}    
+    //             }
+    //         })
+    //         .then(products => {
+    //             if(products.length > 0){
+    //                 let info = {
+    //                     meta: {
+    //                         status : 200,
+    //                         total: products.length,
+    //                         url: '/api/products/search'
+    //                     },
+    //                     data: products
+    //                 }
+    //                 return res.status(200).json(info)
         
-        
-        },
+    //             }else{
+    //                 res.send ('Lo siento, no hemos encontrado su consulta..')  
+    //             }
+    //         })
+    //     }else{
+    //        res.send ('debe indicar el producto que quiere buscar..')
+    //     }    
+    // },
 
     detail: (req, res) => {
 

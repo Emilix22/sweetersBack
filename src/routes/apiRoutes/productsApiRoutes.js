@@ -13,7 +13,7 @@ router.get('/removed', productsApiController.removed);
 router.post('/restore/:id/', productsApiController.restore);
 
 //buscar producto Ecommerce y Sistema
-router.post('/search', productsApiController.search);
+// router.post('/search', productsApiController.search);
 
 //crear productos Sistema solo admiin
 router.post('/create', upload.single('image'), productsApiController.create);
