@@ -28,6 +28,9 @@ const controller = {
         .catch(error => {console.log(error)});
     },
 
+                // req.session.userLogged = userToLogin;
+                
+                
     login: (req, res) => {
           
         Users.findOne({
@@ -35,21 +38,18 @@ const controller = {
             include: [{association: 'level'}]
         })
         .then(userToLogin => {
-            if(userToLogin){
-
-            if (bcrypt.compareSync(req.body.password, userToLogin.password)){
+            if(userToLogin && bcrypt.compareSync(req.body.password, userToLogin.password)) { 
                 
-                delete userToLogin.password;
-                req.session.userLogged = userToLogin;
-                
-                if(req.body.rememberUser){
-                    res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60) * 60 });
-                }
-                return res.status(200).json(userToLogin)
+                return res.status(200).json({
+                    first_name: userToLogin.first_name,
+                    last_name: userToLogin.last_name,
+                    email: userToLogin.email,
+                    image: userToLogin.image,
+                    level: userToLogin.level.level
+               })
+            }else {
+                return res.status(401).json({error: 'Email o password inválido'})
             }
-            return res.send('Las credenciales son inválidas')
-        }
-            return res.send('El email no es correcto')
         })
         .catch(error => {console.log(error)}); 
     },
