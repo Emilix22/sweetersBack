@@ -100,7 +100,7 @@ const controller = {
         })
         .then(userInDB => {
             if(userInDB){
-             return res.send('Ya existe un usuario registrado con este email');
+             return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
             }
 
             let img;
