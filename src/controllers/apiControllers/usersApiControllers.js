@@ -47,8 +47,8 @@ const controller = {
                 if(userToLogin && bcrypt.compareSync(req.body.password, userToLogin.password)) { 
                     
                     return res.status(200).json({
-                        first_name: userToLogin.first_name,
-                        last_name: userToLogin.last_name,
+                        name: userToLogin.name,
+                        surname: userToLogin.surname,
                         email: userToLogin.email,
                         image: userToLogin.image,
                         level: userToLogin.level.level
@@ -120,20 +120,21 @@ const controller = {
             }
 
             Users.create({
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
+                name: req.body.name,
+                surname: req.body.surname,
                 email: req.body.email,
                 password: bcrypt.hashSync(req.body.password, 10),
                 image: img,
                 level_id: 2
             })
             .then(user => {
+
                 let info = {
                     meta: {
                         status : 200,
                         url: '/api/users/create'
                     },
-                    data: user
+                    data: user.name
                 }
                 return res.status(200).json(info)
             })
@@ -154,8 +155,8 @@ const controller = {
 
         Users.update(
             {
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
+                name: req.body.name,
+                surname: req.body.surname,
                 email: req.body.email,
                 image: img
             },
@@ -186,6 +187,7 @@ const controller = {
     profile: (req, res) => {
         Users.findByPk(req.params.id)
         .then(user => {
+            delete user.password;
             let info = {
                 meta: {
                     status : 200,
