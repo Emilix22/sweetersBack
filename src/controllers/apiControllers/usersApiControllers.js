@@ -2,6 +2,7 @@ const db = require('../../database/models');
 const sequelize = db.sequelize;
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
+const { validationResult } = require('express-validator');
 
 //Otra forma de llamar a los modelos
 const Users = db.User;
@@ -27,10 +28,7 @@ const controller = {
         })
         .catch(error => {console.log(error)});
     },
-
-                // req.session.userLogged = userToLogin;
-                
-                
+                          
     login: (req, res) => {
           
         Users.findOne({
@@ -95,43 +93,52 @@ const controller = {
     },
 
     create: (req, res) => {
-        Users.findOne({
-            where: {email: req.body.email}
-        })
-        .then(userInDB => {
-            if(userInDB){
-             return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
-            }
 
-            let img;
+        const errors = validationResult(req);
+        
+        if(errors.errors.length > 0){
 
-            if(req.file != undefined){
-                img = req.file.filename
-            } else {
-                img = 'Foto-perfil-generica.png'
-            }
+            return res.status(401).json({error: errors.mapped(), oldData: req.body});
+            
+        }else{
 
-            Users.create({
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, 10),
-                image: img,
-                level_id: 2
+            Users.findOne({
+                where: {email: req.body.email}
             })
-            .then(user => {
-                let info = {
-                    meta: {
-                        status : 200,
-                        url: '/api/users/create'
-                    },
-                    data: user
+            .then(userInDB => {
+                if(userInDB){
+                return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
                 }
-                return res.status(200).json(info)
-            })
-        })
-        .catch(error => {console.log(error)});
 
+                let img;
+
+                if(req.file != undefined){
+                    img = req.file.filename
+                } else {
+                    img = 'Foto-perfil-generica.png'
+                }
+
+                Users.create({
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    email: req.body.email,
+                    password: bcrypt.hashSync(req.body.password, 10),
+                    image: img,
+                    level_id: 2
+                })
+                .then(user => {
+                    let info = {
+                        meta: {
+                            status : 200,
+                            url: '/api/users/create'
+                        },
+                        data: user
+                    }
+                    return res.status(200).json(info)
+                })
+            })
+            .catch(error => {console.log(error)});
+        }
  	},
 
     update: (req, res) => {
