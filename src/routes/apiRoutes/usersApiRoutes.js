@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../../middlewares/multerUsers');
-const validationsRegister = require('../../middlewares/validationsRegister');
+const validationsLogin = require('../../middlewares/validationsLogin');
 
 const usersApiController = require('../../controllers/apiControllers/usersApiControllers');
 
@@ -9,7 +9,7 @@ const usersApiController = require('../../controllers/apiControllers/usersApiCon
 router.get('/', usersApiController.list);
 
 //login de usuario
-router.post('/login', usersApiController.login);
+router.post('/login', [validationsLogin], usersApiController.login);
 
 //Listar usuarios eliminados
 router.get('/removed', usersApiController.removed);
@@ -17,7 +17,7 @@ router.get('/removed', usersApiController.removed);
 router.post('/restore/:id/', usersApiController.restore);
 
 //crear usuario
-router.post('/create', upload.single('image'), [validationsRegister], usersApiController.create);
+router.post('/create', upload.single('image'), usersApiController.create);
 
 //editar usuario
 router.put('/update/:id/', upload.single('image'), usersApiController.update);

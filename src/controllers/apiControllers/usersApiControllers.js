@@ -30,26 +30,35 @@ const controller = {
     },
                           
     login: (req, res) => {
+
+        const errors = validationResult(req);
+        
+        if(errors.errors.length > 0){
+
+            return res.status(401).json({error: errors.mapped()});
+            
+        }else{
           
-        Users.findOne({
-            where: {email: req.body.email},
-            include: [{association: 'level'}]
-        })
-        .then(userToLogin => {
-            if(userToLogin && bcrypt.compareSync(req.body.password, userToLogin.password)) { 
-                
-                return res.status(200).json({
-                    first_name: userToLogin.first_name,
-                    last_name: userToLogin.last_name,
-                    email: userToLogin.email,
-                    image: userToLogin.image,
-                    level: userToLogin.level.level
-               })
-            }else {
-                return res.status(401).json({error: 'Email o password inválido'})
-            }
-        })
-        .catch(error => {console.log(error)}); 
+            Users.findOne({
+                where: {email: req.body.email},
+                include: [{association: 'level'}]
+            })
+            .then(userToLogin => {
+                if(userToLogin && bcrypt.compareSync(req.body.password, userToLogin.password)) { 
+                    
+                    return res.status(200).json({
+                        first_name: userToLogin.first_name,
+                        last_name: userToLogin.last_name,
+                        email: userToLogin.email,
+                        image: userToLogin.image,
+                        level: userToLogin.level.level
+                    })
+                }else {
+                    return res.status(401).json({error: 'Email o password inválido'})
+                }
+            })
+            .catch(error => {console.log(error)});
+        } 
     },
 
     removed: (req, res) => {
@@ -94,51 +103,42 @@ const controller = {
 
     create: (req, res) => {
 
-        const errors = validationResult(req);
-        
-        if(errors.errors.length > 0){
+        Users.findOne({
+            where: {email: req.body.email}
+        })
+        .then(userInDB => {
+            if(userInDB){
+            return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
+            }
 
-            return res.status(401).json({error: errors.mapped(), oldData: req.body});
-            
-        }else{
+            let img;
 
-            Users.findOne({
-                where: {email: req.body.email}
+            if(req.file != undefined){
+                img = req.file.filename
+            } else {
+                img = 'Foto-perfil-generica.png'
+            }
+
+            Users.create({
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                email: req.body.email,
+                password: bcrypt.hashSync(req.body.password, 10),
+                image: img,
+                level_id: 2
             })
-            .then(userInDB => {
-                if(userInDB){
-                return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
+            .then(user => {
+                let info = {
+                    meta: {
+                        status : 200,
+                        url: '/api/users/create'
+                    },
+                    data: user
                 }
-
-                let img;
-
-                if(req.file != undefined){
-                    img = req.file.filename
-                } else {
-                    img = 'Foto-perfil-generica.png'
-                }
-
-                Users.create({
-                    first_name: req.body.first_name,
-                    last_name: req.body.last_name,
-                    email: req.body.email,
-                    password: bcrypt.hashSync(req.body.password, 10),
-                    image: img,
-                    level_id: 2
-                })
-                .then(user => {
-                    let info = {
-                        meta: {
-                            status : 200,
-                            url: '/api/users/create'
-                        },
-                        data: user
-                    }
-                    return res.status(200).json(info)
-                })
+                return res.status(200).json(info)
             })
-            .catch(error => {console.log(error)});
-        }
+        })
+        .catch(error => {console.log(error)});
  	},
 
     update: (req, res) => {
