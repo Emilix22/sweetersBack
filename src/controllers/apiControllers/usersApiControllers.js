@@ -103,43 +103,52 @@ const controller = {
 
     create: (req, res) => {
 
-        Users.findOne({
-            where: {email: req.body.email}
-        })
-        .then(userInDB => {
-            if(userInDB){
-            return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
-            }
+        const errors = validationResult(req);
+        
+        if(errors.errors.length > 0){
 
-            let img;
+            return res.status(401).json({error: errors.mapped()});
+            
+        }else{
 
-            if(req.file != undefined){
-                img = req.file.filename
-            } else {
-                img = 'Foto-perfil-generica.png'
-            }
-
-            Users.create({
-                name: req.body.name,
-                surname: req.body.surname,
-                email: req.body.email,
-                password: bcrypt.hashSync(req.body.password, 10),
-                image: img,
-                level_id: 2
+            Users.findOne({
+                where: {email: req.body.email}
             })
-            .then(user => {
-
-                let info = {
-                    meta: {
-                        status : 200,
-                        url: '/api/users/create'
-                    },
-                    data: user.name
+            .then(userInDB => {
+                if(userInDB){
+                return res.status(401).json({error: 'Ya existe un usuario registrado con este email'});
                 }
-                return res.status(200).json(info)
+
+                let img;
+
+                if(req.file != undefined){
+                    img = req.file.filename
+                } else {
+                    img = 'Foto-perfil-generica.png'
+                }
+
+                Users.create({
+                    name: req.body.name,
+                    surname: req.body.surname,
+                    email: req.body.email,
+                    password: bcrypt.hashSync(req.body.password, 10),
+                    image: img,
+                    level_id: 2
+                })
+                .then(user => {
+
+                    let info = {
+                        meta: {
+                            status : 200,
+                            url: '/api/users/create'
+                        },
+                        data: user.name
+                    }
+                    return res.status(200).json(info)
+                })
             })
-        })
-        .catch(error => {console.log(error)});
+            .catch(error => {console.log(error)});
+        }
  	},
 
     update: (req, res) => {
