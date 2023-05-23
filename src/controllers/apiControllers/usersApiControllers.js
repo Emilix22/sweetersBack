@@ -102,7 +102,7 @@ const controller = {
     },
 
     create: (req, res) => {
-
+        
         const errors = validationResult(req);
         
         if(errors.errors.length > 0){
