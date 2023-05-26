@@ -11,7 +11,10 @@ const Levels = db.Level;
 const controller = {
 
     list: (req, res) => {
-        Users.findAll({ include: ['level']})
+        Users.findAll({ 
+            include: ['level'],
+            attributes: { exclude: ['password'] }
+        })
         .then(users => {
             let lastuserIndex = users[users.length - 1]
             let lastUser = users.find(user => user.id == lastuserIndex.id)
@@ -176,7 +179,8 @@ const controller = {
         .then(result => {
             Users.findOne({
                 where: {id: req.params.id},
-                include: [{association: 'level'}]
+                include: [{association: 'level'}],
+                attributes: { exclude: ['password'] }
             })
             .then(userEdited => {
                 let info = {
@@ -194,9 +198,8 @@ const controller = {
     },
 
     profile: (req, res) => {
-        Users.findByPk(req.params.id)
+        Users.findByPk(req.params.id, {attributes: { exclude: ['password'] }})
         .then(user => {
-            delete user.password;
             let info = {
                 meta: {
                     status : 200,
@@ -221,7 +224,8 @@ const controller = {
             }
         )
         .then(user => {
-            res.send('Usuario modificado con éxito')
+
+            return res.status(200).json({message: 'Permisos modificados con éxito'})
         })
         .catch(error => {console.log(error)});
     },
@@ -231,7 +235,7 @@ const controller = {
             where: {id: req.params.id}
         })
         .then(user => {
-            res.send('Usuario eliminado con éxito')
+            return res.status(200).json({message: 'Usuario eliminado con éxito'})
         })
         .catch(error => {console.log(error)});    
     },
